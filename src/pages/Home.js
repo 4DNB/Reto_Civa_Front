@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom";
+
 
 export default function Home() {
 
@@ -14,14 +16,13 @@ export default function Home() {
         try {
             const response = await fetch(`http://localhost:8080/bus?page=${page}&size=${limit}`);
             const data = await response.json();
+            console.log(data);
             setBus(data.content);
             setTotalPages(data.totalPages);
         } catch (error) {
             console.error("Error al obtener los datos del bus:", error);
         }
     };
-
-
 
     return (
         <div className="container">
@@ -31,11 +32,7 @@ export default function Home() {
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nº de Bus</th>
-                            <th scope="col">Nº de Placa</th>
-                            <th scope="col">Fecha Creacion</th>
-                            <th scope="col">Descripcion</th>
-                            <th scope="col">Marca</th>
-                            <th scope="col">Activo</th>
+                            <th scope="col">Detalles</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,11 +41,9 @@ export default function Home() {
                                 <tr>
                                     <th scope="row" key={id}>{bus.id}</th>
                                     <td>{bus.numBus}</td>
-                                    <td>{bus.numPlac}</td>
-                                    <td>{bus.fechCre}</td>
-                                    <td>{bus.caracters}</td>
-                                    <td>{bus.idMarcaBus.marcaBus}</td>
-                                    <td>{bus.active ? "✅" : "❌"}</td>
+                                    <td>
+                                        <Link className="btn btn-primary mx-2" to={`/ViewBus/${bus.id}`}>Ver Detalles</Link>
+                                    </td>
                                 </tr>
                             ))
                         }
